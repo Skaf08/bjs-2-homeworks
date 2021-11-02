@@ -102,6 +102,50 @@ class Library {
             return null;
         }
     }
-
-    
 }
+
+class Student {
+    constructor(name) {  
+        this.name = name;
+        this.algebra =[];
+        this.geometry =[];
+    }
+
+    addMark(point, sub) {
+        if ((point >= 1) && (point <= 5)) {
+            if (sub == "algebra") {
+                this.algebra.push(point);
+            } else if (sub == "geometry") {
+                this.geometry.push(point);
+            } else return "Несуществующий предмет";
+        } else return "Ошибка, оценка должна быть числом от 1 до 5";
+    }
+
+    getAverageBySubject(sub) {
+        let sum =0;
+        if (sub == "algebra") {
+            for (let i=0;i<this.algebra.length;i++){
+                sum = sum + this.algebra[i];
+            }
+            return sum/this.algebra.length;
+        } else if (sub == "geometry") {
+            for (let i=0;i<this.geometry.length;i++){
+                sum = sum + this.geometry[i];
+            }
+            return sum/this.algebra.length;
+        } else return "Несуществующий предмет";
+    }
+
+    getAverage() {
+        let sum = 0;
+        for (let i=0;i<this.algebra.length;i++){
+            sum = sum + this.algebra[i];
+        }
+        for (let i=0;i<this.geometry.length;i++){
+            sum = sum + this.geometry[i];
+        }
+        return sum/(this.geometry.length + this.algebra.length);
+    }
+}
+  
+
