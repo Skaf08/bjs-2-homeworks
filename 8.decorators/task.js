@@ -1,5 +1,5 @@
 function cachingDecoratorNew(func) {
-  // Ваш код
+  
 }
 
 
