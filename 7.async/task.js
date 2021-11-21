@@ -32,7 +32,7 @@ class AlarmClock {
     }
 
     start() {
-        (call) => { 
+        const checkClock = (call) => { 
             if(call.time == this.getCurrentFormattedTime()) {
                 call.callback();
             }
