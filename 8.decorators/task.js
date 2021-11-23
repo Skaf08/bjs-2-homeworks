@@ -1,16 +1,16 @@
 function cachingDecoratorNew(func) {
   let cache = [];
   function wrapper(...args) {
-      const hash = args[0] + "," + args[1] + "," + args[2]; // получаем правильный хэш
-      let idx = cache.findIndex((item) => item.hash == hash); // ищем элемент, хэш которого равен нашему хэшу
-      if (idx !== -1 ) { // если элемент не найден
-        console.log("Из кэша: " + cache[idx].value); // индекс нам известен, по индексу в массиве лежит объект, как получить нужное значение?
+      const hash = args[0] + "," + args[1] + "," + args[2]; 
+      let idx = cache.findIndex((item) => item.hash == hash); 
+      if (idx !== -1 ) { 
+        console.log("Из кэша: " + cache[idx].value); 
         return "Из кэша: " + cache[idx].value;
       }
-      let result = func(...args); // в кэше результата нет - придётся считать
-      cache.push({hash: hash, value: result}) ; // добавляем элемент с правильной структурой
+      let result = func(...args); 
+      cache.push({hash: hash, value: result}) ; 
       if (cache.length > 5) { 
-        cache.shift(); // если слишком много элементов в кэше надо удалить самый старый (первый) 
+        cache.shift(); 
       }
       console.log("Вычисляем: " + result);
       return "Вычисляем: " + result;  
@@ -20,16 +20,30 @@ function cachingDecoratorNew(func) {
 
 
 function debounceDecoratorNew(func,ms) {
-    let timeout;
-    return function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-      func();
-      console.timeEnd("time");
-      }, ms);
-  }
+  let flag;
+   return function (...args) {
+    if (flag) return;
+    func.apply(this, args);
+    flag = true;
+    setTimeout(() => {
+      func.apply(this, args);
+      flag = false;
+    }, ms);
+  };
 }
 
-function debounceDecorator2(func) {
-  // Ваш код
+function debounceDecorator2(func, ms) {
+  let flag = false;
+  wrapper.count = 0;
+  function wrapper(...args) {
+    wrapper.count++;
+    if (flag) return;
+    func.apply(this,args);
+    flag = true;
+    setTimeout(() => {
+      flag = false;
+      func.apply(this, args);
+    }, ms);
+  }
+  return wrapper;
 }
